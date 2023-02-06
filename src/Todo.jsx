@@ -1,5 +1,6 @@
 import {FaRegTrashAlt} from 'react-icons/fa';
 import { FaEdit } from 'react-icons/fa';
+import { useState } from "react";
 
 const style = {
     li: `flex p-2 rounded-md my-2 bg-purple-500`,
@@ -9,18 +10,32 @@ const style = {
 }
 
 
-const todo=({todo}) => {
+const Todo=({todo, removeTodo}) => {
+   const [editing, setEdit] = useState(false);
+
     return (
         <li className={style.li}>
             <div className={style.row}>
             <input type="checkbox" className={style.checkbox}/>
-            <p className={style.text}>{todo}</p>
+            {editing ? (
+          <input type="text" defaultValue={todo.text}/>
+        ) : (
+          <p className={style.text}>{todo.text}</p>
+        )}
             </div>
-            <button className={style.button}>{<FaEdit/>}</button>
-            <button className={style.button}>{<FaRegTrashAlt/>}</button>
+            <button onClick={
+                () => {
+                    setEdit(!editing);
+                }
+            }>{<FaEdit/>}</button>
+            <button onClick={
+                () => {
+                    removeTodo(todo.id);
+                }
+            }>{<FaRegTrashAlt/>}</button>
          
         </li>
     )
 }
 
-export default todo;
+export default Todo;
