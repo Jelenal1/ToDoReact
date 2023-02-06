@@ -21,14 +21,15 @@ function App() {
     setTodos(todos.filter(todo => todo.id !== id));
   }
 
-  function addTodo(e){
-    if (e.target[0].value == '') return;  
-          setTodos([...todos, {
-            id: todos.length + 1,
-            text: e.target[0].value,
-            completed: false,
-          }]);
-          e.target[0].value = ""
+  function addTodo(text){
+    if (text !== '') {
+      setTodos([...todos, {
+        id: todos.length + 1,
+        text: text.value,
+        completed: false,
+      }])
+    text.value = '';
+    }
   }
 
   return (
@@ -37,7 +38,7 @@ function App() {
         <h3 className={style.heading}>Add ToDo</h3>
         <form className={style.form} onSubmit={e => {
           e.preventDefault();
-          addTodo(e);
+          addTodo(e.target[0]);
         }}>
           <input type="text" className={style.input} placeholder="Add ToDo" />
           <button className={style.button}><AiOutlinePlusCircle size={30}/></button>
