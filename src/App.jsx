@@ -31,10 +31,10 @@ function App() {
     return unsubscribe;
   }
 
- async function setTodo(text){
-    if (text !== '') {
+ async function addTodo(text, id){
+    if (text.value !== '') {
       await setDoc(doc(db, "todos",
-      text.value), {
+      id), {
           text: text.value,
           completed: false
         })
@@ -52,7 +52,7 @@ function App() {
         <h3 className={style.heading}>Add ToDo</h3>
         <form className={style.form} onSubmit={e => {
           e.preventDefault();
-          setTodo(e.target[0]);
+          addTodo(e.target[0], `${e.target[0].value}${Date.now()}` );
         }}>
           <input type="text" className={style.input} placeholder="Add ToDo" />
           <button className={style.button}><AiOutlinePlusCircle size={30}/></button>
@@ -61,7 +61,7 @@ function App() {
           {todos.map((todo, index) => (
            <Todo key={index} 
            todo={todo}
-
+          addTodo={addTodo}
            removeTodo={removeTodo}
            />
           ))}

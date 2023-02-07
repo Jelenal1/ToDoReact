@@ -10,7 +10,7 @@ const style = {
 }
 
 
-const Todo=({todo, removeTodo}) => {
+const Todo=({todo, removeTodo, addTodo}) => {
    const [editing, setEdit] = useState(false);
 
     return (
@@ -18,7 +18,9 @@ const Todo=({todo, removeTodo}) => {
             <div className={style.row}>
             <input type="checkbox" className={style.checkbox}/>
             {editing ? (
-          <input type="text" defaultValue={todo.text}/>
+          <input type="text" defaultValue={todo.text} onChange={(e)=> {
+            addTodo(e.target, todo.id);
+          } }/>
         ) : (
           <p className={style.text}>{todo.text}</p>
         )}
