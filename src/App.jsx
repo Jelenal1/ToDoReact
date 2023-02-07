@@ -2,7 +2,7 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { useState, useEffect } from "react";
 import Todo from "./Todo";
 import { db } from "./firebase";
-import {  collection, getDocs, onSnapshot, query, QuerySnapshot } from "firebase/firestore";
+import {  collection, deleteDoc, doc, getDocs, query, onSnapshot, setDoc, addDoc } from "firebase/firestore";
 
 const style = {
   bg: `min-h-screen h-full w-screen p-4 bg-gradient-to-r from-[#3f0a93] to-[#830a93]`,
@@ -19,30 +19,32 @@ function App() {
 
   const [todos, setTodos] = useState([]);
 
-  function removeTodo(id){
-    setTodos(todos.filter(todo => todo.id !== id));
+ async function removeTodo(id){
+    await deleteDoc(doc(db, "todos", id));
   }
 
-  function addTodo(text){
+   function getTodos() {
+    const q = query(collection(db, 'todos'))
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      setTodos(querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+    })
+    return unsubscribe;
+  }
+
+ async function setTodo(text){
     if (text !== '') {
-      setTodos([...todos, {
-        id: todos.length + 1,
-        text: text.value,
-        completed: false,
-      }])
-    text.value = '';
+      await setDoc(doc(db, "todos",
+      text.value), {
+          text: text.value,
+          completed: false
+        })
+      text.value = '';
     }
   }
 
   useEffect(() => {
-    async function getTodos() {
-      const q = query(collection(db, 'todos'))
-    const querySnapshot = await getDocs(q);
-     setTodos(querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()})));
-    }
     getTodos();
-    
-  },[])
+  }, []);
 
   return (
     <div className={style.bg}>
@@ -50,7 +52,7 @@ function App() {
         <h3 className={style.heading}>Add ToDo</h3>
         <form className={style.form} onSubmit={e => {
           e.preventDefault();
-          addTodo(e.target[0]);
+          setTodo(e.target[0]);
         }}>
           <input type="text" className={style.input} placeholder="Add ToDo" />
           <button className={style.button}><AiOutlinePlusCircle size={30}/></button>
