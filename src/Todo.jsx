@@ -20,6 +20,7 @@ const Todo = ({ todo, removeTodo, addTodo, toggleCompleted }) => {
           type="checkbox"
           className={style.checkbox}
           onChange={() => toggleCompleted(todo)}
+          checked={todo.completed}
           />
         {editing ? (
           <input
