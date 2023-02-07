@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Todo from "./Todo";
 import { db } from "./firebase";
 import {  collection, deleteDoc, doc, query, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+import Navbar from "./Navbar";
 
 const style = {
   bg: `min-h-screen h-full w-screen p-4 bg-gradient-to-r from-[#3f0a93] to-[#830a93]`,
