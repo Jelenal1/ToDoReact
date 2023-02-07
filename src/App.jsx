@@ -2,7 +2,7 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { useState, useEffect } from "react";
 import Todo from "./Todo";
 import { db } from "./firebase";
-import {  collection, deleteDoc, doc, getDocs, query, onSnapshot, setDoc, addDoc, updateDoc } from "firebase/firestore";
+import {  collection, deleteDoc, doc, query, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 
 const style = {
   bg: `min-h-screen h-full w-screen p-4 bg-gradient-to-r from-[#3f0a93] to-[#830a93]`,
