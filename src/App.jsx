@@ -1,6 +1,8 @@
 import { AiOutlinePlusCircle } from "react-icons/ai";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Todo from "./Todo";
+import { db } from "./firebase";
+import {  collection, onSnapshot, query } from "firebase/firestore";
 
 const style = {
   bg: `min-h-screen h-full w-screen p-4 bg-gradient-to-r from-[#3f0a93] to-[#830a93]`,
@@ -31,6 +33,18 @@ function App() {
     text.value = '';
     }
   }
+
+  useEffect(() => {
+    const q = query(collection(db, 'todos'))
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      let todosArr = [];
+      querySnapshot.forEach((doc) => {
+        todosArr.push({...doc.data(), id: doc.id});
+      });
+      setTodos(todosArr);
+    })
+    return unsubscribe;
+  },[])
 
   return (
     <div className={style.bg}>
