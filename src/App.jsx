@@ -2,7 +2,7 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { useState, useEffect } from "react";
 import Todo from "./Todo";
 import { db } from "./firebase";
-import {  collection, deleteDoc, doc, getDocs, query, onSnapshot, setDoc, addDoc } from "firebase/firestore";
+import {  collection, deleteDoc, doc, getDocs, query, onSnapshot, setDoc, addDoc, updateDoc } from "firebase/firestore";
 
 const style = {
   bg: `min-h-screen h-full w-screen p-4 bg-gradient-to-r from-[#3f0a93] to-[#830a93]`,
@@ -42,6 +42,12 @@ function App() {
     }
   }
 
+async function toggleCompleted(todo) {
+  await updateDoc(doc(db, "todos", todo.id), {
+      completed: !todo.completed
+  })
+}
+
   useEffect(() => {
     getTodos();
   }, []);
@@ -63,6 +69,7 @@ function App() {
            todo={todo}
           addTodo={addTodo}
            removeTodo={removeTodo}
+           toggleCompleted={toggleCompleted}
            />
           ))}
         </ul>
