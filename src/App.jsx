@@ -18,7 +18,7 @@ const style = {
 
 
 
-function Todos(props) {
+function Todos() {
   if (auth.currentUser !== null) {
     return (
       <div className={style.bg}>
