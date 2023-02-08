@@ -1,11 +1,9 @@
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { RiLogoutBoxRFill } from "react-icons/ri";
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import Todo from "./Todo";
 import { auth, db } from "../firebase";
 import {  collection, deleteDoc, doc, query, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
-import { signOut } from "firebase/auth";
 
 const style = {
   bg: `min-h-screen h-full w-screen p-4 bg-gradient-to-r from-[#3f0a93] to-[#830a93]`,
