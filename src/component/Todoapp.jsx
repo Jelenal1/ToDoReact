@@ -23,11 +23,11 @@ function Todoapp() {
   const [todos, setTodos] = useState([]);
 
  async function removeTodo(id){
-    await deleteDoc(doc(db, auth.currentUser.email, id));
+    await deleteDoc(doc(db, auth.currentUser.uid, id));
   }
 
    function getTodos() {
-    const q = query(collection(db, auth.currentUser.email))
+    const q = query(collection(db, auth.currentUser.uid));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       setTodos(querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
     })
@@ -36,8 +36,7 @@ function Todoapp() {
 
  async function addTodo(text, id){
     if (text.value !== '') {
-      await setDoc(doc(db, auth.currentUser.email,
-      id), {
+      await setDoc(doc(db, auth.currentUser.uid, id), {
           text: text.value,
           completed: false
         })
@@ -46,7 +45,7 @@ function Todoapp() {
   }
 
 async function toggleCompleted(todo) {
-  await updateDoc(doc(db, auth.currentUser.email, todo.id), {
+  await updateDoc(doc(db, auth.currentUser.uid, todo.id), {
       completed: !todo.completed
   })
 }
