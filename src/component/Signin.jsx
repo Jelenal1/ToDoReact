@@ -24,6 +24,7 @@ const Signin = () => {
     const Login = async (e) => {
         try{
             const user = await signInWithEmailAndPassword(auth, e.target[0].value, e.target[1].value);
+            console.log(user);
         } catch (error) {
             console.log(error);
         }};
