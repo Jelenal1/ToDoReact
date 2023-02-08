@@ -68,7 +68,7 @@ async function logOut() {
         <h3 className={style.heading}>Add ToDo</h3>
         <form className={style.form} onSubmit={e => {
           e.preventDefault();
-          addTodo(e.target[0], `${e.target[0].value}${Date.now()}` );
+          addTodo(e.target[0], `${auth.currentUser.email}${Date.now()}` );
         }}>
           <input type="text" className={style.input} placeholder="Add ToDo" />
           <button className={style.button}><AiOutlinePlusCircle size={30}/></button>
