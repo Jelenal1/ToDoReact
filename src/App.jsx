@@ -1,3 +1,5 @@
+import { onAuthStateChanged } from "firebase/auth";
+import { useState } from "react";
 import Signin from "./component/Signin";
 import Todoapp from "./component/Todoapp";
 import { auth } from "./firebase";
@@ -15,30 +17,26 @@ const style = {
 
 
 
-function Todos() {
-  if (auth.currentUser !== null) {
-    return (
-      <div className={style.bg}>
-      <Todoapp/>
-      </div>
-    )
-  }else {
-    return (
-      <div className={style.bg}>
-        <Signin/>
-      </div>
-      
-    )
-  }
-
-}
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  return (
-   <Todos/>
-    
-  );
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    setLoggedIn(true);
+  } else {
+    setLoggedIn(false);
+  }
+})
+
+
+  
+    if (loggedIn) {
+      return <Todoapp />
+  } else {
+    return <Signin />
+} 
+  
    
       
       

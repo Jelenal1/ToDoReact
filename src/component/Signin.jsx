@@ -3,7 +3,8 @@ import React from 'react'
 import { auth } from '../firebase';
 
 const style = {
-    container: `bg-slate-100 max-w-[700px] w-full m-auto rounded-md p-2`,
+  bg: `min-h-screen h-full w-screen p-4 bg-gradient-to-r from-[#3f0a93] to-[#830a93]`,
+  container: `bg-slate-100 max-w-[700px] w-full m-auto rounded-md p-2`,
   heading : `text-3xl mb-4 font-bold text-gray-500 text-center`,
   form: `flex my-auto mb-4`,
   input: `flex p-1 w-full rounded-md border border-2 border-purple-500 focus:outline-none`,
@@ -23,13 +24,13 @@ const Signin = () => {
     const Login = async (e) => {
         try{
             const user = await signInWithEmailAndPassword(auth, e.target[0].value, e.target[1].value);
-            console.log(user);
         } catch (error) {
             console.log(error);
         }};
     
 
   return (
+    <div className={style.bg}>
     <div className={style.container}>
         <h3 className={style.heading}>Sign Up</h3>
         <form className={style.form} onSubmit={
@@ -54,7 +55,7 @@ const Signin = () => {
           <button className={style.button}>Login</button>
         </form>
     </div>
-    
+    </div>
   )
 }
 
