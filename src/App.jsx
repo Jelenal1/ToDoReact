@@ -17,31 +17,29 @@ const style = {
 }
 
 
+
+function Todos(props) {
+  if (auth.currentUser !== null) {
+    return (
+      <div className={style.bg}>
+      <Todoapp/>
+      </div>
+    )
+  }else {
+    return (
+      <div className={style.bg}>
+        <Signin/>
+      </div>
+      
+    )
+  }
+
+}
+
 function App() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-
-      if (user !== null) {
-        navigate("/");
-      }else{
-        navigate("/signin");
-      }
-    })
-    }, [navigate]);
-
- 
 
   return (
-    <div className={style.bg}>
-      
-    
-      <Routes>
-      <Route path="/" element={<Todoapp/>} />
-      <Route path="/signin" element={<Signin />} />
-      </Routes>
-    </div>
+   <Todos/>
     
   );
    
