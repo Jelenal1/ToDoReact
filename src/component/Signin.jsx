@@ -17,7 +17,7 @@ const style = {
 const Signin = () => {
 
   const SignUp=  async (e) => {
-    if (e.target[0].value == '' || e.target[1].value == '' || e.target[2].value == '' ) {
+    if (e.target[0].value === '' || e.target[1].value === '' || e.target[2].value === '' ) {
       if (e.target[1].value != e.target[2].value) {
         alert('Password is not identical')
       }else{
@@ -34,7 +34,7 @@ const Signin = () => {
     }}};
 
     const Login = async (e) => {
-      if (e.target[0].value == '' || e.target[1].value == '') {
+      if (e.target[0].value === '' || e.target[1].value === '') {
         alert('Incorrect Email or Password');
       } else {
         try{
