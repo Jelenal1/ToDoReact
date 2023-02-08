@@ -29,7 +29,6 @@ function App() {
         navigate("/signin");
       }
     })
-   
     }, []);
 
  
