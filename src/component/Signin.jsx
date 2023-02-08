@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import React, { useState } from 'react'
+import React from 'react'
 import { FaSignInAlt } from 'react-icons/fa';
 import { auth } from '../firebase';
 
