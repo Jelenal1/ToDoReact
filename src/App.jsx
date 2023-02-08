@@ -1,8 +1,10 @@
-import { AiOutlinePlusCircle } from "react-icons/ai";
-import { useState, useEffect } from "react";
-import Todo from "./Todo";
-import { db } from "./firebase";
-import {  collection, deleteDoc, doc, query, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { useContext, useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import Signin from "./component/Signin";
+import Todoapp from "./component/Todoapp";
+import { auth } from "./firebase";
+
 
 const style = {
   bg: `min-h-screen h-full w-screen p-4 bg-gradient-to-r from-[#3f0a93] to-[#830a93]`,
@@ -16,68 +18,38 @@ const style = {
 
 
 function App() {
-
-  const [todos, setTodos] = useState([]);
-
- async function removeTodo(id){
-    await deleteDoc(doc(db, "todos", id));
-  }
-
-   function getTodos() {
-    const q = query(collection(db, 'todos'))
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      setTodos(querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-    })
-    return unsubscribe;
-  }
-
- async function addTodo(text, id){
-    if (text.value !== '') {
-      await setDoc(doc(db, "todos",
-      id), {
-          text: text.value,
-          completed: false
-        })
-      text.value = '';
-    }
-  }
-
-async function toggleCompleted(todo) {
-  await updateDoc(doc(db, "todos", todo.id), {
-      completed: !todo.completed
-  })
-}
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getTodos();
-  }, []);
+    onAuthStateChanged(auth, (user) => {
+
+      if (user !== null) {
+        navigate("/");
+      }else{
+        navigate("/signin");
+      }
+    })
+   
+    }, []);
+
+ 
 
   return (
     <div className={style.bg}>
-      <div className={style.container}>
-        <h3 className={style.heading}>Add ToDo</h3>
-        <form className={style.form} onSubmit={e => {
-          e.preventDefault();
-          addTodo(e.target[0], `${e.target[0].value}${Date.now()}` );
-        }}>
-          <input type="text" className={style.input} placeholder="Add ToDo" />
-          <button className={style.button}><AiOutlinePlusCircle size={30}/></button>
-        </form>
-        <ul className={style.ul}>
-          {todos.map((todo, index) => (
-           <Todo key={index} 
-           todo={todo}
-          addTodo={addTodo}
-           removeTodo={removeTodo}
-           toggleCompleted={toggleCompleted}
-           />
-          ))}
-        </ul>
-        <p className={style.count}>You have {todos.length} ToDos</p>
-      </div>
-
+      
+    
+      <Routes>
+      <Route path="/" element={<Todoapp/>} />
+      <Route path="/signin" element={<Signin />} />
+      </Routes>
     </div>
+    
   );
+   
+      
+      
+    
+    
 }
 
 export default App;
