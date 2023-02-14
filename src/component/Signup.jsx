@@ -1,6 +1,6 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React from 'react'
-import { AiOutlineUser, AiOutlineUserAdd } from 'react-icons/ai';
+import { AiOutlineUser } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
 
@@ -16,29 +16,39 @@ const style = {
 }
 
 const Signin = () => {
-  const navigate = useNavigate();
+const navigate = useNavigate();
+  const SignUp=  async (e) => {
+    if (e.target[0].value === '' || e.target[1].value === '' || e.target[2].value === '' ) {
+      if (e.target[1].value !== e.target[2].value && e.target[0].value !== '') {
+        alert('Password is not identical')
+      }else{
+      alert('Please enter a valid email and password')
+      }
+      
+    } else {
+      
+    try{
+        const newuser = await createUserWithEmailAndPassword(auth, e.target[0].value, e.target[1].value);
+        console.log(newuser);
+    } catch (error) {
+        console.log(error);
+    }}};
 
-    const Login = async (e) => {
-      if (e.target[0].value === '' || e.target[1].value === '') {
-        alert('Incorrect Email or Password');
-      } else {
-        try{
-            const user = await signInWithEmailAndPassword(auth, e.target[0].value, e.target[1].value);
-            console.log(user);
-        } catch (error) {
-            console.log(error);
-        }}};
     
 
   return (
     <div className={style.bg}>
-        <button className={style.button} onClick={()=>navigate("/signup")}><div className='text-xl mr-1'>Sign Up</div><AiOutlineUserAdd className='h-9 w-9'/></button>
+        <button className={style.button} onClick={()=>navigate("/signin")}><div className='text-xl mr-1'>Sign In</div><AiOutlineUser className='h-9 w-9'/></button>
     <div className={style.container}>
-        <h3 className={style.heading}>Login</h3>
+        <h3 className={style.heading}>Sign Up</h3>
         <form className={style.form} onSubmit={
-          (e) => {e.preventDefault(); Login(e);}}>
+          (e) => {
+          e.preventDefault()
+          SignUp(e);
+          }}>
           <input type="text" placeholder="E-Mail" className={style.input}/>
           <input type="password" placeholder="Password" className={style.input}/>
+          <input type="password" placeholder="Retype Password" className={style.input}/>
           <button className={style.button}><AiOutlineUser className='h-9 w-9'/></button>
         </form>
     </div>
